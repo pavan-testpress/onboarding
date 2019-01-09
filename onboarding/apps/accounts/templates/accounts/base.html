@@ -8,11 +8,16 @@
   {% endblock %}
 </head>
 <body>
+ <div class="jumbotron">
+   <h1 class="display-4"  style="text-align:center" >Onboarding Apps</h1>
+   <div class="float-right">
+     <a>Hello {{ request.user.username }}</a>
+     <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'accounts:logout' %}">Logout</a>
+   </div>
+ </div>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-8">
-        <h1 class="mt-2">On Boarding Apps</h1>
-        <hr class="mt-0 mb-4">
         {% block content %}
         {% endblock %}
       </div>
