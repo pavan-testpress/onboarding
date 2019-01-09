@@ -1,9 +1,6 @@
-from django.shortcuts import render, reverse
-from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def home(request):
-    if request.user.is_authenticated:
-        return render(request, 'accounts/home.html')
-    else:
-        return HttpResponseRedirect(reverse('accounts:login'))
+    return render(request, 'accounts/home.html')
