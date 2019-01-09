@@ -53,5 +53,6 @@ def signup(request):
         return HttpResponseRedirect(reverse('accounts:registration_success'))
     return render(request, 'registration/signup.html', {'form': form})
 
+
 def registration_success(request):
     return HttpResponse('Please confirm your email address to complete the registration')
