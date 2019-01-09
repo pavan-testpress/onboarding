@@ -1,5 +1,4 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.core.exceptions import ObjectDoesNotExist
 
 from .models import User
 
@@ -13,6 +12,8 @@ class UserLoginForm(AuthenticationForm):
             valid = user.check_password(password)
             if not valid:
                 self.add_error('password', 'Invalid password.')
+            if (user.is_active is False) and (valid is True):
+                self.add_error('username', 'Please verify your email to login.')
         except User.DoesNotExist:
             self.add_error('username', 'User does not exist')
         return super(UserLoginForm, self).clean()
