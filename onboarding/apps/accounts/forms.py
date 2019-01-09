@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import User
 
@@ -14,4 +15,19 @@ class UserLoginForm(AuthenticationForm):
                 self.add_error('password', 'Invalid password.')
         except User.DoesNotExist:
             self.add_error('username', 'User does not exist')
-        return super().clean()
+        return super(UserLoginForm, self).clean()
+
+
+class UserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "username", "email", "password1", "password2")
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            self.add_error('username', 'User already exists.')
+        elif User.objects.filter(email=email).exists():
+            self.add_error('email', 'User with given email already exists.')
+        return super(UserCreationForm, self).clean()

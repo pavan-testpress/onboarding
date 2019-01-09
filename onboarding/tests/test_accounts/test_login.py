@@ -28,7 +28,7 @@ class AccountsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
         self.assertContains(response, '<input type="text" name="username" autofocus class="textinput textInput form-control" required id="id_username">')
-        self.assertContains(response, '<button class="btn btn-success" type="submit">Login</button>')
+        self.assertContains(response, '<button class="btn btn-success" type="submit" form="form1">Login</button>')
         self.assertContains(response, '<input type="password" name="password" class="textinput textInput form-control" required id="id_password">')
 
     def test_try_to_login_with_invalid_credentials(self):
