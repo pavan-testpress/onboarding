@@ -59,4 +59,3 @@ class AccountsTestCase(TestCase):
         self.assertEqual(user.is_active, True)
         response = self.client.post(reverse('accounts:login'), {'username': 'pavankumar', 'password': '143Pavan..'})
         self.assertRedirects(response, reverse('accounts:home'))
- 
