@@ -23,4 +23,4 @@ class AccountsTestCase(TestCase):
     def test_logout(self):
         self.client.login(username="pavankumar", password="143Pavan..")
         response = self.client.get(reverse('accounts:logout'), follow=True)
-        self.assertRedirects(response, '/login/')
+        self.assertRedirects(response, '/login/?next=/')
