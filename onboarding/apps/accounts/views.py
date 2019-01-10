@@ -56,4 +56,3 @@ def signup(request):
 
 def registration_success(request):
     return HttpResponse('Please confirm your email address to complete the registration')
-
