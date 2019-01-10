@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm as LoginForm, UserCreationForm as RegistrationForm
+from django.contrib.auth.forms import AuthenticationForm as LoginForm, UserCreationForm as RegistrationForm, PasswordResetForm as PasswordChangeForm
 
 from .models import User
 
@@ -32,3 +32,13 @@ class UserCreationForm(RegistrationForm):
         elif User.objects.filter(email=email).exists():
             self.add_error('email', 'User with given email already exists.')
         return super(UserCreationForm, self).clean()
+
+
+class PasswordResetForm(PasswordChangeForm):
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            self.add_error('email', 'This email does not have any account with us.')
+        return super(PasswordResetForm, self).clean()
