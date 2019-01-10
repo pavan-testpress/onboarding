@@ -12,6 +12,6 @@ class UserLoginForm(AuthenticationForm):
             valid = user.check_password(password)
             if not valid:
                 self.add_error('password', 'Invalid password.')
-        except:
+        except User.DoesNotExist:
             self.add_error('username', 'User does not exist')
         return super().clean()
