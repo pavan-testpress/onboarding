@@ -10,6 +10,7 @@ django = "*"
 django-crispy-forms = "*"
 exam = "*"
 django-model-utils = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.6"
