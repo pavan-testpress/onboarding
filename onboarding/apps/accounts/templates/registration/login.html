@@ -1,5 +1,5 @@
-{% load crispy_forms_tags %}
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
   {% load static %}
@@ -15,11 +15,12 @@
         <hr class="mt-0 mb-4">
         <div class="col-6">
           <h2>Login</h2>
-          <form method="post">
+          <form method="post" id="form1">
             {% csrf_token %}
             {{ form|crispy }}
-            <button class="btn btn-success" type="submit">Login</button>
           </form>
+          <button class="btn btn-success" type="submit" form="form1">Login</button>
+          <a href="{% url 'accounts:signup' %}"><button class="btn btn-success" type="submit">Signup</button></a>
         </div>
       </div>
     </div>

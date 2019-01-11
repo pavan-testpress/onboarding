@@ -5,16 +5,12 @@ from apps.accounts.models import User
 
 
 class AccountsTestCase(TestCase):
-
     def setUp(self):
         user = {
             'first_name': 'Pavan Kumar',
             'last_name': 'Kuppala',
             'username': 'pavankumar',
             'email': 'pavancse17@gmail.com',
-            'password1': '143Pavan..',
-            'password2': '143Pavan..',
-
         }
         User.objects.create_user(first_name=user['first_name'], last_name=user['last_name'],
                                  username=user['username'], email=user['email'],
@@ -28,7 +24,7 @@ class AccountsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
         self.assertContains(response, '<input type="text" name="username" autofocus class="textinput textInput form-control" required id="id_username">')
-        self.assertContains(response, '<button class="btn btn-success" type="submit">Login</button>')
+        self.assertContains(response, '<button class="btn btn-success" type="submit" form="form1">Login</button>')
         self.assertContains(response, '<input type="password" name="password" class="textinput textInput form-control" required id="id_password">')
 
     def test_try_to_login_with_invalid_credentials(self):
