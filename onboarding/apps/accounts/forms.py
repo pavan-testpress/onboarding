@@ -1,9 +1,9 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm as LoginForm, UserCreationForm as RegistrationForm
 
 from .models import User
 
 
-class UserLoginForm(AuthenticationForm):
+class UserLoginForm(LoginForm):
     def clean(self):
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
@@ -19,7 +19,7 @@ class UserLoginForm(AuthenticationForm):
         return super(UserLoginForm, self).clean()
 
 
-class UserCreationForm(UserCreationForm):
+class UserCreationForm(RegistrationForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "username", "email", "password1", "password2")
