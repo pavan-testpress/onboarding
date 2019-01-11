@@ -1,0 +1,32 @@
+{% extends 'bookmarks/base.html' %}
+{% block title %}
+  <title>Folders</title>
+{% endblock %}
+{% block content %}
+  <div style="display:flex; flex-wrap:wrap;">
+    {% for folder in folders %}
+      <a href="#" style="color: unset;margin: 7px;padding:10px;" class="folder">
+      <i class="fas fa-folder" style="font-size:150px; padding:15px;"></i>
+      <div style="display: flex;justify-content: space-between;padding:10px;" class="names">
+        <h6 style="text-transform: capitalize;">{{ folder.name }}</h6>
+        <h6>Count<span class="badge badge-secondary" style="margin-left:7px;">{{ folder.folder.count }}</span></h6>
+      </div>
+      </a>
+    {% endfor %}
+  </div>
+  <span>
+    {% if is_paginated %}
+      <div class="pagination">
+        {% if page_obj.has_previous%}
+          <button class="btn btn-dark" name="page" value="{{ page_obj.previous_page_number }}" form="filter_form" >Previous</button>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <button class="btn btn-dark" name="page" value="{{ page_obj.next_page_number }}" form="filter_form" >Next</button>
+        {% endif %}
+      </div>
+    {% endif %}
+  </span>
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/bootstrap.css' %}">
+  <link href="{% static 'bookmarks/css/all.css' %}" rel="stylesheet">
+  <link href="{% static 'bookmarks/css/css.css' %}" rel="stylesheet">
+  {% block title %}
+  {% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-light bg-light justify-content-evenly">
+  <a class="navbar-brand">Bookmarks</a>
+  <form class="form-inline" method="GET" style="align-items: unset" id="filter_form">
+    <select name="sort" class="dropdown btn btn-secondary dropdown-toggle" style="margin-right: 5px;">
+      <option value="name" {% if sort == "name" %} selected {% endif %}>By Name</option>
+      <option value="-modified" {% if sort == "-modified" %} selected {% endif %} >Modified by</option>
+      <option value="-created" {% if sort == "-created" %} selected {% endif %} >Created by</option>
+    </select>
+    {% if name != "" %}
+      <input name="name" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="{{ name }}">
+    {% else %}
+      <input name="name" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    {% endif %}
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+  </form>
+  <a href="{% url 'accounts:logout' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hello! {{ request.user.username }} | Logout</button></a>
+  </nav>
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
