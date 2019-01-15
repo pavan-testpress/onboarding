@@ -48,3 +48,24 @@ class BookmarkFilter(django_filters.FilterSet):
         else:
             queryset = queryset.filter(created_by=self.request.user, folder=folder)
         return super().filter_queryset(queryset)
+
+
+class BookmarkFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Bookmark
+        fields = ['name']
+
+    def filter_queryset(self, queryset):
+        sort = 'name'
+        try:
+            folder = Folder.objects.get(created_by=self.request.user, slug=self.request.path.split('/')[2])
+        except Folder.DoesNotExist:
+            folder = None
+        if 'sort' in self.request.GET:
+            sort = self.request.GET['sort']
+            if sort not in ['-created', '-modified', 'name']:
+                sort = 'name'
+        queryset = queryset.filter(created_by=self.request.user, folder=folder).order_by(sort)
+        return super().filter_queryset(queryset)
