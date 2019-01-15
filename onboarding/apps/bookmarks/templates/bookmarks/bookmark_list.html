@@ -1,0 +1,34 @@
+{% extends 'bookmarks/base.html' %}
+{% block title %}
+  <title>Bookmarks List</title>
+{% endblock %}
+{% block navbar %}
+  <a class="navbar-brand" href="{% url 'bookmarks:folders' %}">Folders</a>
+{% endblock %}
+{% block content %}
+{% for bookmark in bookmarks %}
+<div class="bookmark">
+    <h5 class="name">Name: {{ bookmark.name }}</h5>
+    <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
+    <div class="buttons">
+        <button class="btn btn-outline-primary" style="margin:10px; ">Edit</button>
+        <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
+    </div>
+</div>
+{% endfor %}
+  <span>
+    {% if is_paginated %}
+      <div class="pagination">
+        {% if page_obj.has_previous%}
+          <button class="btn btn-dark" name="page" value="{{ page_obj.previous_page_number }}" form="filter_form" >Previous</button>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <button class="btn btn-dark" name="page" value="{{ page_obj.next_page_number }}" form="filter_form" >Next</button>
+        {% endif %}
+      </div>
+    {% endif %}
+  </span>
+{% endblock %}

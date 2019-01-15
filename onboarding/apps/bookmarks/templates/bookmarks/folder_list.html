@@ -1,12 +1,12 @@
 {% extends 'bookmarks/base.html' %}
 {% load templatehelpers %}
 {% block title %}
-  <title>Folders</title>
+  <title>Bookmark Folders</title>
 {% endblock %}
 {% block content %}
   <div style="display:flex; flex-wrap:wrap;">
     {% for folder in folders %}
-      <a href="#" style="color: unset;margin: 7px;padding:10px;" class="folder">
+      <a href="{% url 'bookmarks:bookmarks' slug=folder.slug %}" style="color: unset;margin: 7px;padding:10px;" class="folder">
       <i class="fas fa-folder" style="font-size:150px; padding:15px;"></i>
       <div style="display: flex;justify-content: space-between;padding:10px;" class="names">
         <h6 style="text-transform: capitalize;">{{ folder.name }}</h6>
