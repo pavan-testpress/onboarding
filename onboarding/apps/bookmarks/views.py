@@ -36,6 +36,8 @@ class BookmarkListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(BookmarkListView, self).get_context_data()
+        data['selected_folder'] = slug=self.kwargs['slug']
+        data['folders'] = Folder.objects.filter(created_by=self.request.user).order_by('name')
         data['sort'] = 'name'
         if 'sort' in self.request.GET:
             data['sort'] = self.request.GET['sort']

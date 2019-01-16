@@ -6,29 +6,41 @@
   <a class="navbar-brand" href="{% url 'bookmarks:folders' %}">Folders</a>
 {% endblock %}
 {% block content %}
-{% for bookmark in bookmarks %}
-<div class="bookmark">
-    <h5 class="name">Name: {{ bookmark.name }}</h5>
-    <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
-    <div class="buttons">
-        <button class="btn btn-outline-primary" style="margin:10px; ">Edit</button>
-        <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
-    </div>
-</div>
-{% endfor %}
-  <span>
-    {% if is_paginated %}
-      <div class="pagination">
-        {% if page_obj.has_previous%}
-          <button class="btn btn-dark" name="page" value="{{ page_obj.previous_page_number }}" form="filter_form" >Previous</button>
-        {% endif %}
-        <span class="page-current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        {% if page_obj.has_next %}
-          <button class="btn btn-dark" name="page" value="{{ page_obj.next_page_number }}" form="filter_form" >Next</button>
-        {% endif %}
+  <div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+      <div class="col-12 col-md-2" style="height:100vh;overflow-y: scroll !important;max-height: 90vh !important;">
+        <a href="{% url 'bookmarks:bookmarks' slug='all' %}" class='{% if selected_folder == "all" %}sidebar active{% else %}sidebar{% endif %}' style="display:block">All</a>
+        {% for folder in folders %}
+          <a href="{% url 'bookmarks:bookmarks' slug=folder.slug %}" class='{% if selected_folder == folder.slug %}sidebar active{% else %}sidebar{% endif %}' style="display:block">{{ folder.name }}</a>
+        {% endfor %}
       </div>
-    {% endif %}
-  </span>
+      <div class="col-12 col-md-10" style="height:100h;overflow-y: scroll !important;max-height: 90vh !important;">
+        {% for bookmark in bookmarks %}
+          <div class="bookmark">
+            <h5 class="name">Name: {{ bookmark.name }}</h5>
+            <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
+            <div class="buttons">
+              <button class="btn btn-outline-primary" style="margin:10px; ">Edit</button>
+              <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
+            </div>
+          </div>
+        {% endfor %}
+        <span>
+          {% if is_paginated %}
+            <div class="pagination">
+              {% if page_obj.has_previous%}
+                <button class="btn btn-dark" name="page" value="{{ page_obj.previous_page_number }}" form="filter_form" >Previous</button>
+              {% endif %}
+              <span class="page-current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                <button class="btn btn-dark" name="page" value="{{ page_obj.next_page_number }}" form="filter_form" >Next</button>
+              {% endif %}
+            </div>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
 {% endblock %}

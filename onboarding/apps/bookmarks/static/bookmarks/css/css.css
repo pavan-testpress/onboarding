@@ -39,3 +39,22 @@
 .pagination{
     justify-content: space-between;
 }
+
+a.sidebar:hover {
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+}
+
+a.sidebar.active{
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+}
+
+a.sidebar {
+    padding: 5px;
+    text-align: left;
+    margin: 5px;
+    text-transform: capitalize;
+}
