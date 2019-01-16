@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Folder, Bookmark
 from .filters import FolderFilter, BookmarkFilter
-from .forms import FolderCreateForm
+from .forms import FolderCreateForm, BookmarkCreateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,4 +51,14 @@ class FolderCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+class BookmarkCreateView(CreateView):
+    form_class = BookmarkCreateForm
+    template_name = 'bookmarks/bookmark_create_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'place_user': self.request.user})
         return kwargs
