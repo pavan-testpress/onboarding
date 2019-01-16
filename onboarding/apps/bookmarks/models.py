@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.shortcuts import reverse
 
 from model_utils.models import TimeStampedModel
 
@@ -20,6 +21,9 @@ class Folder(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('bookmarks:folders')
 
 
 class Bookmark(TimeStampedModel):
