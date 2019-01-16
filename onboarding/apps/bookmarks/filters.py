@@ -67,5 +67,8 @@ class BookmarkFilter(django_filters.FilterSet):
             sort = self.request.GET['sort']
             if sort not in ['-created', '-modified', 'name']:
                 sort = 'name'
-        queryset = queryset.filter(created_by=self.request.user, folder=folder).order_by(sort)
+        if folder is None:
+            queryset = queryset.filter(created_by=self.request.user).order_by(sort)
+        else:
+            queryset = queryset.filter(created_by=self.request.user, folder=folder).order_by(sort)
         return super().filter_queryset(queryset)
