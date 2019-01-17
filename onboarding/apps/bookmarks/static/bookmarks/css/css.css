@@ -1,0 +1,8 @@
+.folder:hover{
+background-color: #c6c8ca;
+border-radius:20px;
+}
+
+.pagination{
+justify-content: space-between;
+}
