@@ -15,8 +15,8 @@
   <nav class="navbar navbar-light bg-light justify-content-evenly">
   <a class="navbar-brand">Bookmarks</a>
   <form class="form-inline" method="GET" style="align-items: unset" id="filter_form">
-    {% addclass filter_form.sort class="dropdown btn btn-secondary dropdown-toggle" %}
-    {% addclass filter_form.name placeholder="Search" class="form-control mr-sm-2"%}
+    {% add_attrs filter_form.sort class="dropdown btn btn-secondary dropdown-toggle" %}
+    {% add_attrs filter_form.name placeholder="Search" class="form-control mr-sm-2"%}
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
   </form>
   <a href="{% url 'accounts:logout' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hello! {{ request.user.username }} | Logout</button></a>

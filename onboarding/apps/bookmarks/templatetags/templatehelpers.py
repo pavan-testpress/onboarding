@@ -15,6 +15,6 @@ def relative_url(value, field_name, urlencode=None):
 
 
 @register.simple_tag
-def addclass(field, **kwargs):
+def add_attrs(field, **kwargs):
     return field.as_widget(attrs={"placeholder": kwargs.get('placeholder' or None),
                                   "class": kwargs.get('class' or None)})
