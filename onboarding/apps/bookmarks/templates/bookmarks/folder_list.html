@@ -3,6 +3,9 @@
 {% block title %}
   <title>Bookmark Folders</title>
 {% endblock %}
+{% block navbar %}
+  <a class="navbar-brand" href="{% url 'bookmarks:bookmarks' slug='all' %}">Bookmarks List</a>
+{% endblock %}
 {% block content %}
   <div class="container">
     <div style="display:flex; flex-wrap:wrap;">

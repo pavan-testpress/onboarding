@@ -9,7 +9,7 @@
   <a class="navbar-brand" href="{% url 'bookmarks:folders' %}">Folders</a>
 {% endblock %}
 {% block content %}
-<form action="{% url 'bookmarks:folders' %}" id="form2">
+<form action="{% url 'bookmarks:bookmarks' slug=selected_folder %}" id="form2">
 </form>
   <div style="display: grid;justify-content: center;height: 80vh;align-items: center;">
     <div>

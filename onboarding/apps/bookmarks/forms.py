@@ -13,7 +13,7 @@ class FolderCreateForm(ModelForm):
         super().__init__(*args, **kwargs)
 
     def clean_name(self):
-        name = self.cleaned_data['name']
+        name = self.cleaned_data['name'].capitalize()
         try:
             Folder.objects.get(created_by=self.user, name__iexact=name)
         except Folder.DoesNotExist:
@@ -30,11 +30,15 @@ class FolderCreateForm(ModelForm):
 class BookmarkCreateForm(ModelForm):
     class Meta:
         model = Bookmark
-        fields = ['name','url']
+        fields = ['name', 'url']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('place_user')
+        self.user = kwargs.pop('user')
+        self.folder = kwargs.pop('folder')
         super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        return self.cleaned_data['name'].capitalize()
 
     def clean(self):
         name = self.cleaned_data['name']
@@ -52,5 +56,13 @@ class BookmarkCreateForm(ModelForm):
     def save(self, commit=True):
         bookmark = super().save(commit=False)
         bookmark.created_by = self.user
+        if self.folder == 'all':
+            try:
+                folder = Folder.objects.get(name='Uncategorized', created_by=self.user)
+            except Folder.DoesNotExist:
+                folder = Folder.objects.create(name="Uncategorized", created_by=self.user)
+        else:
+            folder = Folder.objects.get(slug=self.folder, created_by=self.user)
+        bookmark.folder = folder
         bookmark.save()
         return bookmark

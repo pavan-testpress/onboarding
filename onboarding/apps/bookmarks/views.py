@@ -1,6 +1,7 @@
 from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from .models import Folder, Bookmark
 from .filters import FolderFilter, BookmarkFilter
@@ -54,11 +55,22 @@ class FolderCreateView(CreateView):
         return kwargs
 
 
+@method_decorator(login_required, name='dispatch')
 class BookmarkCreateView(CreateView):
     form_class = BookmarkCreateForm
     template_name = 'bookmarks/bookmark_create_form.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.update({'place_user': self.request.user})
+        kwargs.update({'user': self.request.user})
+        kwargs.update({'folder': self.kwargs['slug']})
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data()
+        data['selected_folder'] = self.kwargs['slug']
+        return data
+
+    def get_success_url(self):
+        url = reverse('bookmarks:bookmarks', kwargs={'slug': self.kwargs['slug']})
+        return url
