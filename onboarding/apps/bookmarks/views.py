@@ -14,16 +14,10 @@ class FolderListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        filtered_data = FolderFilter(request=self.request, data=self.request.GET, queryset=super().get_queryset())
-        return filtered_data.qs
+        self.filtered_data = FolderFilter(request=self.request, data=self.request.GET, queryset=super().get_queryset())
+        return self.filtered_data.qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(FolderListView, self).get_context_data()
-        data['sort'] = 'name'
-        if 'sort' in self.request.GET:
-            data['sort'] = self.request.GET['sort']
-            if data['sort'] not in ['-modified', '-created', 'name']:
-                data['sort'] = 'name'
-        if 'name' in self.request.GET:
-            data['name'] = self.request.GET['name']
+        data['filter_form'] = self.filtered_data.form
         return data

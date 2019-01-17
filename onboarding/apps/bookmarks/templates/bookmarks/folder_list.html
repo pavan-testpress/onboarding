@@ -1,4 +1,5 @@
 {% extends 'bookmarks/base.html' %}
+{% load templatehelpers %}
 {% block title %}
   <title>Folders</title>
 {% endblock %}
@@ -18,13 +19,13 @@
     {% if is_paginated %}
       <div class="pagination">
         {% if page_obj.has_previous%}
-          <button class="btn btn-dark" name="page" value="{{ page_obj.previous_page_number }}" form="filter_form" >Previous</button>
+          <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
         {% endif %}
         <span class="page-current">
           Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
         {% if page_obj.has_next %}
-          <button class="btn btn-dark" name="page" value="{{ page_obj.next_page_number }}" form="filter_form" >Next</button>
+          <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">Next</a>
         {% endif %}
       </div>
     {% endif %}
