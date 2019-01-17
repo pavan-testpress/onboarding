@@ -1,8 +1,60 @@
 .folder:hover{
-background-color: #c6c8ca;
-border-radius:20px;
+    background-color: #c6c8ca;
+    border-radius:20px;
+}
+.bookmark{
+    padding:10px;
+    display: grid;
+    grid-template-columns: 6fr 3fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 'name buttons'
+                         'url buttons';
+}
+.bookmark name{
+    grid-area: name;
+}
+.bookmark url{
+    grid-area : url;
+}
+.bookmark a{
+    color: unset;
+}
+.buttons{
+    grid-area: buttons;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    visibility: hidden;
+}
+.bookmark:hover
+{
+    color: dodgerblue;
+    background: whitesmoke;
+    border-radius: 10px;
+}
+.bookmark:hover .buttons{
+    visibility: visible;
 }
 
 .pagination{
-justify-content: space-between;
+    justify-content: space-between;
+}
+
+a.sidebar:hover {
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+}
+
+a.sidebar.active{
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+}
+
+a.sidebar {
+    padding: 5px;
+    text-align: left;
+    margin: 5px;
+    text-transform: capitalize;
 }

@@ -13,7 +13,9 @@
 </head>
 <body>
   <nav class="navbar navbar-light bg-light justify-content-evenly">
-  <a class="navbar-brand">Bookmarks</a>
+    {% block navbar %}
+      <a class="navbar-brand">Bookmarks</a>
+    {% endblock %}
   <form class="form-inline" method="GET" style="align-items: unset" id="filter_form">
     {% add_attrs filter_form.sort class="dropdown btn btn-secondary dropdown-toggle" %}
     {% add_attrs filter_form.name placeholder="Search" class="form-control mr-sm-2"%}
@@ -21,9 +23,7 @@
   </form>
   <a href="{% url 'accounts:logout' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hello! {{ request.user.username }} | Logout</button></a>
   </nav>
-  <div class="container">
-    {% block content %}
-    {% endblock %}
-  </div>
+  {% block content %}
+  {% endblock %}
 </body>
 </html>

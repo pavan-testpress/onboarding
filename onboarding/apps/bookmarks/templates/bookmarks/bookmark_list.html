@@ -1,0 +1,47 @@
+{% extends 'bookmarks/base.html' %}
+{% load templatehelpers %}
+{% block title %}
+  <title>Bookmarks List</title>
+{% endblock %}
+{% block navbar %}
+  <a class="navbar-brand" href="{% url 'bookmarks:folders' %}">Folders</a>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+      <div class="col-12 col-md-2" style="height:100vh;overflow-y: scroll !important;max-height: 90vh !important;">
+        <a href="{% url 'bookmarks:bookmarks' slug='all' %}" class='{% if selected_folder == "all" %}sidebar active{% else %}sidebar{% endif %}' style="display:block">All</a>
+        {% for folder in folders %}
+          <a href="{% url 'bookmarks:bookmarks' slug=folder.slug %}" class='{% if selected_folder == folder.slug %}sidebar active{% else %}sidebar{% endif %}' style="display:block">{{ folder.name }}</a>
+        {% endfor %}
+      </div>
+      <div class="col-12 col-md-10" style="height:100h;overflow-y: scroll !important;max-height: 90vh !important;">
+        {% for bookmark in bookmarks %}
+          <div class="bookmark">
+            <h5 class="name">Name: {{ bookmark.name }}</h5>
+            <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
+            <div class="buttons">
+              <button class="btn btn-outline-primary" style="margin:10px; ">Edit</button>
+              <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
+            </div>
+          </div>
+        {% endfor %}
+        <span>
+          {% if is_paginated %}
+            <div class="pagination">
+              {% if page_obj.has_previous%}
+                <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
+              {% endif %}
+              <span class="page-current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">Next</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+{% endblock %}
