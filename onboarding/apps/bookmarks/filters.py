@@ -30,18 +30,21 @@ class BookmarkFilter(django_filters.FilterSet):
         model = Bookmark
         fields = ['name']
 
+    sort = django_filters.OrderingFilter(
+        choices=(
+            ('name', 'Name'),
+            ('-modified', 'Modified(descending)'),
+            ('-created', 'Created(descending)'),
+        ),
+    )
+
     def filter_queryset(self, queryset):
-        sort = 'name'
         try:
             folder = Folder.objects.get(created_by=self.request.user, slug=self.request.path.split('/')[2])
         except Folder.DoesNotExist:
             folder = None
-        if 'sort' in self.request.GET:
-            sort = self.request.GET['sort']
-            if sort not in ['-created', '-modified', 'name']:
-                sort = 'name'
         if folder is None:
-            queryset = queryset.filter(created_by=self.request.user).order_by(sort)
+            queryset = queryset.filter(created_by=self.request.user)
         else:
-            queryset = queryset.filter(created_by=self.request.user, folder=folder).order_by(sort)
+            queryset = queryset.filter(created_by=self.request.user, folder=folder)
         return super().filter_queryset(queryset)

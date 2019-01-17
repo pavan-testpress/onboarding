@@ -31,18 +31,12 @@ class BookmarkListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        filtered_data = BookmarkFilter(request=self.request, data=self.request.GET, queryset=super().get_queryset())
-        return filtered_data.qs
+        self.filtered_data = BookmarkFilter(request=self.request, data=self.request.GET, queryset=super().get_queryset())
+        return self.filtered_data.qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(BookmarkListView, self).get_context_data()
         data['selected_folder'] = self.kwargs['slug']
         data['folders'] = Folder.objects.filter(created_by=self.request.user).order_by('name')
-        data['sort'] = 'name'
-        if 'sort' in self.request.GET:
-            data['sort'] = self.request.GET['sort']
-            if data['sort'] not in ['-modified', '-created', 'name']:
-                data['sort'] = 'name'
-        if 'name' in self.request.GET:
-            data['name'] = self.request.GET['name']
+        data['filter_form'] = self.filtered_data.form
         return data
