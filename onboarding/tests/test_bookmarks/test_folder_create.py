@@ -46,12 +46,12 @@ class FolderCreateTestCase(Exam, TestCase):
         self.assertTemplateUsed(response, 'bookmarks/folder_create_form.html')
 
     def test_create_view_with_existing_folder(self):
-        response = self.client.post(reverse('bookmarks:folder_create'), { 'name': 'Testpress'})
+        response = self.client.post(reverse('bookmarks:folder_create'), {'name': 'Testpress'})
         self.assertEqual(response.context['form'].errors['name'], ['Folder already exists.'])
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'bookmarks/folder_create_form.html')
 
     def test_create_view_with_new_folder(self):
-        response = self.client.post(reverse('bookmarks:folder_create'), { 'name': 'Google'})
+        response = self.client.post(reverse('bookmarks:folder_create'), {'name': 'Google'})
         self.assertRedirects(response, reverse('bookmarks:folders'))
         assert Folder.objects.filter(name='Google').exists()

@@ -6,7 +6,7 @@ from .models import Folder
 class FolderCreateForm(ModelForm):
     class Meta:
         model = Folder
-        fields = ['name',]
+        fields = ['name', ]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('place_user')
