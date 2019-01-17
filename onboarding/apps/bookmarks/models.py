@@ -11,6 +11,9 @@ class Folder(TimeStampedModel):
     slug = models.SlugField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['name']
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Folder, self).save(*args, **kwargs)
@@ -25,6 +28,9 @@ class Bookmark(TimeStampedModel):
     url = models.URLField(max_length=200)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     slug = models.SlugField()
+
+    class Meta:
+        ordering = ['name']
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
