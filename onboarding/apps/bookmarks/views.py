@@ -67,7 +67,7 @@ class BookmarkListView(ListView):
             data['name'] = self.request.GET['name']
         return data
 
-
+@method_decorator(login_required, name='dispatch')
 class FolderCreateView(CreateView):
     form_class = FolderCreateForm
     template_name = 'bookmarks/folder_create_form.html'
