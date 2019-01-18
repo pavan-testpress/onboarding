@@ -66,3 +66,20 @@ class BookmarkCreateForm(ModelForm):
         bookmark.folder = folder
         bookmark.save()
         return bookmark
+
+
+class FolderUpdateForm(ModelForm):
+    class Meta:
+        model = Folder
+        fields = ['name', ]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].capitalize()
+        count = Folder.objects.filter(created_by=self.user, name__iexact=name).count()
+        if count == 0:
+            return name
+        raise forms.ValidationError('Folder already exists.')
