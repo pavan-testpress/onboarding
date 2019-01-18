@@ -23,7 +23,7 @@
         <div class="back-view" style="display:grid">
           <a href="{% url 'bookmarks:bookmarks' slug=folder.slug %}"><button class="btn btn-outline-success">Open</button></a>
           <a href="{% url 'bookmarks:folder_update' slug=folder.slug %}"><button class="btn btn-outline-success">Edit</button></a>
-          <a href="#"><button class="btn btn-outline-success">Delete</button></a>
+          <a href="{% url 'bookmarks:folder_delete' slug=folder.slug %}"><button class="btn btn-outline-success">Delete</button></a>
         </div>
       </div>
       {% endfor %}

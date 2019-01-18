@@ -1,7 +1,8 @@
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from .models import Folder, Bookmark
 from .filters import FolderFilter, BookmarkFilter
@@ -114,3 +115,30 @@ class BookmarkUpdateView(UpdateView):
     def get_success_url(self):
         url = reverse('bookmarks:bookmarks', kwargs={'slug': self.kwargs['slug']})
         return url
+
+
+@method_decorator(login_required, name="dispatch")
+class FolderDeleteView(DeleteView):
+    model = Folder
+    template_name = 'bookmarks/folder_delete_confirm.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(created_by=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        delete_folder = self.get_object()
+        if delete_folder.name == "Uncategorized":
+            for bookmark in delete_folder.folder.all():
+                bookmark.delete()
+            delete_folder.delete()
+            return HttpResponseRedirect(reverse('bookmarks:folders'))
+        if Folder.objects.filter(name='Uncategorized', created_by=self.request.user).exists():
+            uncategorized_folder = Folder.objects.get(name="Uncategorized", created_by=self.request.user)
+        else:
+            uncategorized_folder = Folder.objects.create(name='Uncategorized', created_by=self.request.user)
+        for bookmark in delete_folder.folder.all():
+                bookmark.folder = uncategorized_folder
+                bookmark.save()
+        delete_folder.delete()
+        return HttpResponseRedirect(reverse('bookmarks:folders'))
