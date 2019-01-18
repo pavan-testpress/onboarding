@@ -142,3 +142,16 @@ class FolderDeleteView(DeleteView):
                 bookmark.save()
         delete_folder.delete()
         return HttpResponseRedirect(reverse('bookmarks:folders'))
+
+
+@method_decorator(login_required, name="dispatch")
+class BookmarkDeleteView(DeleteView):
+    model = Bookmark
+    template_name = 'bookmarks/bookmark_delete_confirm.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(created_by=self.request.user)
+
+    def get_success_url(self):
+        url = reverse('bookmarks:bookmarks', kwargs={'slug': self.kwargs['slug']})
+        return url

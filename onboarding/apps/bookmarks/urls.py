@@ -12,4 +12,5 @@ urlpatterns = [
     path('<slug>/', views.BookmarkListView.as_view(), name="bookmarks"),
     path('<slug>/create/', views.BookmarkCreateView.as_view(), name="bookmark_create"),
     path('<slug>/<pk>/edit/', views.BookmarkUpdateView.as_view(), name="bookmark_update"),
+    path('<slug>/<pk>/delete/', views.BookmarkDeleteView.as_view(), name="bookmark_delete"),
 ]
