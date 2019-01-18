@@ -1,9 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import Folder, Bookmark
 from .filters import FolderFilter, BookmarkFilter
+from .forms import FolderCreateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -40,3 +41,14 @@ class BookmarkListView(ListView):
         data['folders'] = Folder.objects.filter(created_by=self.request.user).order_by('name')
         data['filter_form'] = self.filtered_data.form
         return data
+
+
+@method_decorator(login_required, name='dispatch')
+class FolderCreateView(CreateView):
+    form_class = FolderCreateForm
+    template_name = 'bookmarks/folder_create_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs

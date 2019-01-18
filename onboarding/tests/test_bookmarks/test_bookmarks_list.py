@@ -39,7 +39,7 @@ class BookmarkListTestCase(Exam, TestCase):
         self.assertRedirects(response, '/login/?next=/bookmark-folders/folder1/')
 
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get('/bookmark-folders/folder-1/')
+        response = self.client.get('/bookmark-folders/folder1/')
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
