@@ -1,0 +1,27 @@
+{% extends 'bookmarks/base.html' %}
+{% load crispy_forms_tags %}
+{% block searchbar %}
+{% endblock %}
+{% block title %}
+  <title>Create Bookmark</title>
+{% endblock %}
+{% block navbar %}
+  <a class="navbar-brand" href="{% url 'bookmarks:folders' %}">Folders</a>
+{% endblock %}
+{% block content %}
+<form action="{% url 'bookmarks:bookmarks' slug=selected_folder %}" id="form2">
+</form>
+  <div style="display: grid;justify-content: center;height: 80vh;align-items: center;">
+    <div>
+      <form method="post">
+        {% csrf_token %}
+        <i class="fas fa-star" style="display:flex;justify-content:center;font-size:150px; padding:15px;"></i>
+        {{ form|crispy }}
+          <div style="display:flex;justify-content:space-around;">
+              <input type="submit" class="btn btn-outline-success my-2 my-sm-0">
+              <button class="btn btn-outline-success my-2 my-sm-0" form="form2">Cancel</button>
+          </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
