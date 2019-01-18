@@ -44,36 +44,11 @@ class BookmarkListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class BookmarkListView(ListView):
-    model = Bookmark
-    template_name = 'bookmarks/bookmark_list.html'
-    context_object_name = 'bookmarks'
-    paginate_by = 5
-
-    def get_queryset(self):
-        filtered_data = BookmarkFilter(request=self.request, data=self.request.GET, queryset=super().get_queryset())
-        return filtered_data.qs
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super(BookmarkListView, self).get_context_data()
-        data['selected_folder'] = slug=self.kwargs['slug']
-        data['folders'] = Folder.objects.filter(created_by=self.request.user).order_by('name')
-        data['sort'] = 'name'
-        if 'sort' in self.request.GET:
-            data['sort'] = self.request.GET['sort']
-            if data['sort'] not in ['-modified', '-created', 'name']:
-                data['sort'] = 'name'
-        if 'name' in self.request.GET:
-            data['name'] = self.request.GET['name']
-        return data
-
-
-@method_decorator(login_required, name='dispatch')
 class FolderCreateView(CreateView):
     form_class = FolderCreateForm
     template_name = 'bookmarks/folder_create_form.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.update({'place_user': self.request.user})
+        kwargs.update({'user': self.request.user})
         return kwargs

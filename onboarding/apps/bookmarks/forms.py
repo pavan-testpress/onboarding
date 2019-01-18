@@ -9,9 +9,8 @@ class FolderCreateForm(ModelForm):
         fields = ['name', ]
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('place_user')
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs = {'class': 'form-control'}
 
     def clean_name(self):
         name = self.cleaned_data['name']
