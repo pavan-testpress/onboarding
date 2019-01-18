@@ -21,7 +21,7 @@
             <h5 class="name">Name: {{ bookmark.name }}</h5>
             <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
             <div class="buttons">
-              <button class="btn btn-outline-primary" style="margin:10px; ">Edit</button>
+              <a href="{% url 'bookmarks:bookmark_update' slug=selected_folder pk=bookmark.id %}"><button class="btn btn-outline-primary" style="margin:10px; ">Edit</button></a>
               <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
             </div>
           </div>

@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from .models import Folder, Bookmark
 from .filters import FolderFilter, BookmarkFilter
-from .forms import FolderCreateForm, BookmarkCreateForm, FolderUpdateForm
+from .forms import FolderCreateForm, BookmarkCreateForm, FolderUpdateForm, BookmarkUpdateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -89,3 +89,28 @@ class FolderUpdateView(UpdateView):
 
     def get_queryset(self):
         return Folder.objects.filter(created_by=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class BookmarkUpdateView(UpdateView):
+    model = Bookmark
+    form_class = BookmarkUpdateForm
+    template_name = 'bookmarks/bookmark_update_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user, 'pk': self.kwargs['pk']})
+        return kwargs
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(created_by=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data()
+        data['form'].fields["folder"].queryset = Folder.objects.filter(created_by=self.request.user)
+        data['selected_folder'] = self.kwargs['slug']
+        return data
+
+    def get_success_url(self):
+        url = reverse('bookmarks:bookmarks', kwargs={'slug': self.kwargs['slug']})
+        return url
