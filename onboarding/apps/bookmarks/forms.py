@@ -83,3 +83,28 @@ class FolderUpdateForm(ModelForm):
         if count == 0:
             return name
         raise forms.ValidationError('Folder already exists.')
+
+
+class BookmarkUpdateForm(ModelForm):
+    class Meta:
+        model = Bookmark
+        fields = ['name', 'url', 'folder']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        self.pk = kwargs.pop('pk')
+        super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].capitalize()
+        bookmark_pks = list(Bookmark.objects.filter(created_by=self.user, name__iexact=name).values_list('id', flat=True))
+        if int(self.pk) in bookmark_pks or len(bookmark_pks) == 0:
+            return name
+        raise forms.ValidationError('Folder already exists.')
+
+    def clean_url(self):
+        url = self.cleaned_data['url']
+        bookmark_pks = list(Bookmark.objects.filter(created_by=self.user, url=url).values_list('id', flat=True))
+        if int(self.pk) in bookmark_pks or len(bookmark_pks) == 0:
+            return url
+        raise forms.ValidationError('Url already exists.')

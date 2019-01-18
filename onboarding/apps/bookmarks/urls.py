@@ -10,4 +10,5 @@ urlpatterns = [
     path('<slug>/edit/', views.FolderUpdateView.as_view(), name="folder_update"),
     path('<slug>/', views.BookmarkListView.as_view(), name="bookmarks"),
     path('<slug>/create/', views.BookmarkCreateView.as_view(), name="bookmark_create"),
+    path('<slug>/<pk>/edit/', views.BookmarkUpdateView.as_view(), name="bookmark_update"),
 ]
