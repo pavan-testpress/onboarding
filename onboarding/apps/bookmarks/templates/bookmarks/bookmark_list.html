@@ -22,7 +22,7 @@
             <h6 class="url">URL:<a href="{{ bookmark.url }}">{{ bookmark.url }}</a></h6>
             <div class="buttons">
               <a href="{% url 'bookmarks:bookmark_update' slug=selected_folder pk=bookmark.id %}"><button class="btn btn-outline-primary" style="margin:10px; ">Edit</button></a>
-              <button class="btn btn-outline-danger" style="margin:10px;">Delete</button>
+              <a href="{% url 'bookmarks:bookmark_delete' slug=selected_folder pk=bookmark.id %}"><button class="btn btn-outline-danger" style="margin:10px;">Delete</button></a>
             </div>
           </div>
         {% endfor %}
